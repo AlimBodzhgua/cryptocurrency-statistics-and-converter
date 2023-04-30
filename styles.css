@@ -1,0 +1,36 @@
+
+body {
+	margin: 0;
+}
+
+.board {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	background-color: #ECEFF1;
+}
+
+.coins-list {
+	width: 80vw;
+	padding: 15px 15px;
+
+	background-color: #fff;
+	border-radius: 5px;
+	transform: scale(0);
+
+	transition: transform .2s linear;
+}
+
+.list__item {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	border-bottom: 1px solid #ECEFF1;
+}
+
+.coin__icon {
+	width: 20px;
+	height: 20px;
+}
+

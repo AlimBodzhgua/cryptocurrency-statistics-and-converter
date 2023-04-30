@@ -4,11 +4,27 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Document</title>
-	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-	
+<h1>Crypto</h1>
 
-<script src="script.js"></script>
+<input type="text" class="search-input">
+<div>
+	Order by:
+	<button class="order-btn" data-order='marketCap'>marketCap(default)</button>	
+	<button class="order-btn" data-order='price'>price</button>	
+	<button class="order-btn" data-order='24hVolume'>24hVolume</button>	
+	<button class="order-btn" data-order='listedAt'>listedAt</button>	
+	<button class="order-btn" data-order='change'>change</button>
+</div>
+
+<div class="board">
+	<ol class="coins-list">
+	</ol>
+</div>
+
+
+<script type="module" src="script.js"></script>
 </body>
 </html>
