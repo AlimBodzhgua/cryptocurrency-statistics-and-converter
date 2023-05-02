@@ -15,18 +15,19 @@ const searchInput = document.querySelector('.search-input');
 const options = {
  	headers: {
     	'Content-Type': 'application/json',
-    	'x-access-token': 'coinranking2eb56d200a0d6048867e2e0f8fd62263c88205177c531252',
+    	'x-access-token': KEY,
 	},
 };
 
 
 const getCoins = async (order = 'marketCap', limit = 30) => {
-	const url = `https://api.coinranking.com/v2/coins?orderBy=${order}&limit=${limit}`;
+	const url = `https://api.coinranking.com/v2/coins?orderBy=${order}&limit=${limit}&tags`;
 
 	try {
 		const response = await fetch(url, options);
 		const json = await response.json();
 		const coins = await json.data.coins;
+		console.log(coins);
 		return coins;
 	} catch(error) {
 		throw new Error('Error getting coins', error);
@@ -34,11 +35,22 @@ const getCoins = async (order = 'marketCap', limit = 30) => {
 }
 
 const getCoinPrice = async (uuid) => {
-	const url = `https://api.coinranking.com/v2/coin/${uuid}/price`
+	const url = `https://api.coinranking.com/v2/coin/wsogvtv82FCd/price`
 	try {
 		const response = await fetch(url, options);
 	} catch (error) {
 		throw new Error('Error getting coin price', error);
+	}
+}
+
+const getCoinDetails = async (uuid) => {
+	const url = `https://api.coinranking.com/v2/coin/${uuid}`;
+	try {
+		const response = await fetch(url, options);
+		const json = await response.json();
+		console.log(json);
+	} catch (error) {
+		throw new Error('Error getting coin details', error);
 	}
 }
 
@@ -78,8 +90,7 @@ searchInput.addEventListener('input', (event) => {
 	const value = (event.target.value).toLowerCase();
 	const keys = Object.keys(coinsList);
 	const searchList = {};
-	
-	
+
 	keys.forEach(key => {
 		let {name, symbol} = coinsList[key];
 		name = name.toLowerCase();

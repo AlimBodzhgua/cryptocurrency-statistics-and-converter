@@ -18,15 +18,22 @@ body {
 	background-color: #fff;
 	border-radius: 5px;
 	transform: scale(0);
-
+	box-shadow: rgb(0 0 0 / 40%) 0px 2px 15px -3px;
 	transition: transform .2s linear;
 }
 
 .list__item {
 	width: 100%;
 	display: flex;
-	justify-content: space-between;
 	border-bottom: 1px solid #ECEFF1;
+}
+
+.list__item img {
+	margin-right: 10px;
+}
+
+.list__item div {
+	margin-right: 55px;
 }
 
 .coin__icon {
