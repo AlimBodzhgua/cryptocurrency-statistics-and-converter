@@ -1,5 +1,11 @@
 import {KEY} from './key.js';
-import {list, toCoinsList, clearList} from './look/view.js';
+import {
+	list, 
+	toCoinsList,
+	clearList,
+	showNotFound,
+	showSearchResult
+} from './look/view.js';
 
 let coinsList = {};
 
@@ -45,8 +51,7 @@ const showCoins = async (order) => {
 	const listFulled = new Promise((resolve, reject) => {
 		setTimeout(() => {
 			keys.forEach(key => {
-				const {uuid, name, symbol, iconUrl} = coins[key];
-				toCoinsList(name, symbol, iconUrl);
+				toCoinsList(coins[key]);
 			})
 			resolve();
 		}, 1000) 
@@ -72,16 +77,28 @@ showCoins();
 searchInput.addEventListener('input', (event) => {
 	const value = (event.target.value).toLowerCase();
 	const keys = Object.keys(coinsList);
-
+	const searchList = {};
+	
+	
 	keys.forEach(key => {
 		let {name, symbol} = coinsList[key];
 		name = name.toLowerCase();
 		symbol = symbol.toLowerCase();
 
 		if (name.includes(value)) {
-			console.log(name);
+			searchList[key] = coinsList[key];
 		} else if (symbol.includes(value)) {
-			console.log(symbol);
+			searchList[key] = coinsList[key];
 		}
 	})
+
+	clearList();
+
+	if (!Object.keys(searchList).length) {
+		showNotFound();
+	} else {
+		showSearchResult(searchList);
+	}
 })
+
+
