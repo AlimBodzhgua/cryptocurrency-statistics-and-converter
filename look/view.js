@@ -1,13 +1,17 @@
 
-export const list = document.querySelector('.coins-list');
+export const table = document.querySelector('.coins-table');
+export const tableBody = document.querySelector('.coins-content');
 export const body = document.querySelector('body');
 const modal = document.querySelector('.modal');
 const close = document.querySelector('.modal__close');
 
-export const toCoinsList = (coin) => {
-	const li = document.createElement('li');
-	li.classList.add('list__item');
-	li.setAttribute('data-id', coin.uuid);
+export const toCoinsTable = (coin, index) => {
+	const row = document.createElement('tr');
+	row.classList.add('table__row');
+	row.setAttribute('data-id', coin.uuid);
+
+	const id = document.createElement('td');
+	id.innerHTML = ++index;
 
 	const img = document.createElement('img');
 	img.classList.add('coin__icon');
@@ -21,31 +25,37 @@ export const toCoinsList = (coin) => {
 	symbol.classList.add('coin__symbol');
 	symbol.innerHTML = coin.symbol;
 
-	const price = document.createElement('div');
+	const data = document.createElement('td');
+	data.classList.add('coin__data');
+	data.append(img);
+	data.append(name);
+	data.append(symbol);
+
+	const price = document.createElement('td');
 	price.classList.add('coin__price');
 	price.innerHTML = `$${parseFloat(coin.price).toFixed(6)}`;
 
-	const volume = document.createElement('div');
+	const volume = document.createElement('td');
 	volume.classList.add('coin__volume');
 	volume.innerHTML = `$${parseFloat(coin["24hVolume"])}`;
 
-	const marketCap = document.createElement('div');
+	const marketCap = document.createElement('td');
 	marketCap.classList.add('coin__cap');
-	marketCap.innerHTML = `$${parseFloat(coin.marketCap).toFixed(6)}`;
+	marketCap.innerHTML = `$${parseFloat(coin.marketCap).toFixed(3)}`;
 
-	li.append(img);
-	li.append(name);
-	li.append(symbol);
-	li.append(price);
-	li.append(volume);
-	list.append(li);
+	row.append(id);
+	row.append(data);
+	row.append(price);
+	row.append(marketCap);
+	row.append(volume);
+	tableBody.append(row);
 }
 
-export const clearList = () => {
+export const clearTable = () => {
 	setTimeout(() => {
-		list.innerHTML = '';
+		tableBody.innerHTML = '';
 	}, 800)
-	list.style.transform = 'scale(0)';
+	table.style.transform = 'scale(0)';
 }
 
 export const showNotFound = () => {
@@ -55,11 +65,11 @@ export const showNotFound = () => {
 
 	return new Promise((resolve, reject) => {	
 		setTimeout(() => {
-			list.append(header);		
+			tableBody.append(header);		
 			resolve();
 		}, 1000)
 	}).then(() => {
-		list.style.transform = 'scale(1)';
+		table.style.transform = 'scale(1)';
 	})
 }
 
@@ -67,12 +77,12 @@ export const showSearchResult = (searchList) => {
 	return new Promise(resolve => {
 		setTimeout(() => {
 			Object.keys(searchList).forEach(key => {
-				toCoinsList(searchList[key]);
+				toCoinsTable(searchList[key], key);
 			})
 			resolve();
 		}, 1000) 
 	}).then(() => {
-		list.style.transform = 'scale(1)'
+		table.style.transform = 'scale(1)'
 	});
 }
 

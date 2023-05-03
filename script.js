@@ -1,9 +1,9 @@
 import {KEY} from './key.js';
 import {
 	body,
-	list, 
-	toCoinsList,
-	clearList,
+	table, 
+	toCoinsTable,
+	clearTable,
 	showNotFound,
 	showSearchResult,
 	showCoinDetails,
@@ -61,17 +61,17 @@ const showCoins = async (order) => {
 	const keys = await Object.keys(coins);
 	coinsList = coins;
 
-	const listFulled = new Promise((resolve, reject) => {
+	const tableFulled = new Promise((resolve, reject) => {
 		setTimeout(() => {
 			keys.forEach(key => {
-				toCoinsList(coins[key]);
+				toCoinsTable(coins[key], key);
 			})
 			resolve();
 		}, 1000) 
 	})
 	
-	listFulled.then(() => {
-		list.style.transform = 'scale(1)'
+	tableFulled.then(() => {
+		table.style.transform = 'scale(1)'
 	});
 }
 
@@ -80,7 +80,7 @@ orderButtns.forEach(button => {
 	button.addEventListener('click', (event) => {
 		event.preventDefault();
 		const orderValue = event.target.dataset.order; 
-		clearList();
+		clearTable();
 		showCoins(orderValue)
 	})
 })
@@ -104,7 +104,7 @@ searchInput.addEventListener('input', (event) => {
 		}
 	})
 
-	clearList();
+	clearTable();
 
 	if (!Object.keys(searchList).length) {
 		showNotFound();
@@ -114,12 +114,11 @@ searchInput.addEventListener('input', (event) => {
 })
 
 
-list.addEventListener('click', async (event) => {
+table.addEventListener('click', async (event) => {
 	const $target = event.target;
-
-	if ($target.classList.contains('list__item')) {
+	console.log($target.classList);
+	if ($target.classList.contains('table__row')) {
 		const id = $target.dataset.id;
-		//modal.style.display = 'flex';
 		modal.classList.add('active');
 		body.classList.add('no-scroll');
 		const coinData = await getCoinDetails(id);

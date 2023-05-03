@@ -20,30 +20,42 @@ body {
 	background-color: #ECEFF1;
 }
 
-.coins-list {
-	width: 80vw;
+/*Table*/
+
+.coins-table {
+	width: 85vw;
+	border-collapse: separate;
+	border-spacing: 0;
+
 	padding: 15px 15px;
+	margin: 15px 0;
 
 	background-color: #fff;
 	border-radius: 5px;
+	box-shadow: rgb(0 0 0 / 40%) 0px 2px 15px -3px;	
+
 	transform: scale(0);
-	box-shadow: rgb(0 0 0 / 40%) 0px 2px 15px -3px;
 	transition: transform .2s linear;
 }
 
-.list__item {
-	width: 100%;
-	display: flex;
-	border-bottom: 1px solid #ECEFF1;
-
-	transition: background .3s linear;
+.coins-table thead {
+	color: rgba(0,0,0,.87);
+	background: rgba(0,0,0,.05);
+	
+	text-align: left;
+	pointer-events: none;
 }
 
-.list__item:hover {
+.table__row {
+	width: 100%;
+	border-bottom: 1px solid black;
+}
+
+.table__row:hover {
 	background: rgba(0,0,0,.05);
 }
 
-.list__item img {
+.table__row img {
 	margin-right: 10px;
 }
 
@@ -56,22 +68,15 @@ body {
 	height: 20px;
 }
 
-.coin__name {
+.coin__data {
+	display: flex;
 	pointer-events: none;
 }
 
-.coin__symbol {
-	pointer-events: none;
-}
-
-.coin__price {
-	pointer-events: none;
-}
-
-.coin__volume {
-	pointer-events: none;
-}
-
+.coin__name,
+.coin__symbol,
+.coin__price,
+.coin__volume,
 .coin__cap {
 	pointer-events: none;
 }

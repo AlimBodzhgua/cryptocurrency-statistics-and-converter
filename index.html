@@ -7,7 +7,7 @@
 	<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<h1>Crypto</h1>
+<h1>Cryptocurrency</h1>
 
 <input type="text" class="search-input">
 <div>
@@ -19,11 +19,25 @@
 	<button class="order-btn" data-order='change'>change</button>
 </div>
 
-<div class="board">
-	<ol class="coins-list">
-	</ol>
-</div>
 
+<div class="board">
+	<table class="coins-table">
+		<thead>
+			<tr>
+				<th>№</th>
+				<th>Name</th>
+				<th>Price</th>
+				<th>Market cap</th>
+				<th>Volume</th>
+			</tr>
+		</thead>
+		<tbody class="coins-content">
+		</tbody>
+	</table>	
+</div>						
+
+
+<!-- modal -->
 <div class="modal">
 	<div class="modal__inner">
 		<button class="modal__close">close</button>
