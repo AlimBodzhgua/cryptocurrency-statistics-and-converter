@@ -1,6 +1,15 @@
 
+h1, h2, h3, h4, h5, h6 {
+	padding: 0;
+	margin: 0;
+}
+
 body {
 	margin: 0;
+}
+
+.no-scroll {
+	overflow: hidden;
 }
 
 .board {
@@ -26,6 +35,12 @@ body {
 	width: 100%;
 	display: flex;
 	border-bottom: 1px solid #ECEFF1;
+
+	transition: background .3s linear;
+}
+
+.list__item:hover {
+	background: rgba(0,0,0,.05);
 }
 
 .list__item img {
@@ -41,5 +56,111 @@ body {
 	height: 20px;
 }
 
+.coin__name {
+	pointer-events: none;
+}
+
+.coin__symbol {
+	pointer-events: none;
+}
+
+.coin__price {
+	pointer-events: none;
+}
+
+.coin__volume {
+	pointer-events: none;
+}
+
+.coin__cap {
+	pointer-events: none;
+}
+
 .not-found {
+
+}
+
+
+/*modal*/
+
+.modal {
+	position: absolute;
+	left: 0;
+	top: 0;
+
+	height: 100vh;
+	width: 100vw;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	overflow: hidden;
+
+	background-color: rgba(0, 0, 0, .7);
+
+	display: none;
+}
+
+
+.modal.active {
+	display: flex;
+}
+
+.modal__inner {
+	background-color: #fff;
+	border-radius: 5px;
+
+	max-width: 70vw;
+	padding: 15px 25px;
+	position: relative;
+}
+
+
+
+.modal__close {
+	position: absolute;
+	top: 15px;
+	right: 25px;
+
+	width: 20px;
+	height: 20px;
+
+	font-size: 0;
+	color: transparent;
+	background: none;
+	border: none;
+
+	display: block;
+
+	cursor: pointer;
+	transition: transform .3s linear;
+}
+
+
+.modal__close:before,
+.modal__close:after {
+	content: '';
+	display: block;
+	background-color: black;
+	height: 1.2px;
+	width: 100%;
+
+	position: absolute;
+	top: 50%;
+	left: 0;
+}
+
+.modal__close:before {
+	transform: rotate(45deg);	
+}
+
+.modal__close:after {
+	transform: rotate(-45deg);	
+}
+
+.modal__close:hover {
+	transform: 
+		rotate(90deg)
+		scale(1.15)
 }

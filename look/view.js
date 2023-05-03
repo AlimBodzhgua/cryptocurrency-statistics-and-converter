@@ -1,5 +1,8 @@
 
 export const list = document.querySelector('.coins-list');
+export const body = document.querySelector('body');
+const modal = document.querySelector('.modal');
+const close = document.querySelector('.modal__close');
 
 export const toCoinsList = (coin) => {
 	const li = document.createElement('li');
@@ -27,9 +30,8 @@ export const toCoinsList = (coin) => {
 	volume.innerHTML = `$${parseFloat(coin["24hVolume"])}`;
 
 	const marketCap = document.createElement('div');
-	marketCap.classList.add('coin__price');
+	marketCap.classList.add('coin__cap');
 	marketCap.innerHTML = `$${parseFloat(coin.marketCap).toFixed(6)}`;
-
 
 	li.append(img);
 	li.append(name);
@@ -38,9 +40,6 @@ export const toCoinsList = (coin) => {
 	li.append(volume);
 	list.append(li);
 }
-
-
-//data.coins[0]["24hVolume"]
 
 export const clearList = () => {
 	setTimeout(() => {
@@ -76,3 +75,53 @@ export const showSearchResult = (searchList) => {
 		list.style.transform = 'scale(1)'
 	});
 }
+
+export const showCoinDetails = (coin, modal) => {
+	const modalContent = document.querySelector('.modal__content');
+
+	const name = document.createElement('div');
+	name.innerText = coin.name;
+
+	const symbol = document.createElement('div');
+	symbol.innerText = coin.symbol;
+
+	const price = document.createElement('div');
+	price.innerText = coin.price;
+
+	const volume = document.createElement('div');
+	volume.innerText = coin['24hVolume'];
+
+	const cap = document.createElement('div');
+	cap.innerText = coin.marketCap;
+
+	const url = document.createElement('a');
+	url.innerText = coin.websiteUrl;
+	url.setAttribute('href', coin.websiteUrl);
+
+	const description = document.createElement('div');
+	description.innerText = coin.description;
+
+	const tags = document.createElement('div');
+	tags.innerText = coin.tags;
+
+	modalContent.append(name);
+	modalContent.append(symbol);
+	modalContent.append(description);
+	modalContent.append(price);
+	modalContent.append(volume);
+	modalContent.append(cap);
+	modalContent.append(url);
+	modalContent.append(tags);
+}
+
+const clearModal = () => {
+	const content = modal.querySelector('.modal__content');
+	content.innerHTML = '';
+}
+
+close.addEventListener('click', (event) => {
+	event.preventDefault();
+	modal.classList.remove('active');
+	body.classList.remove('no-scroll');
+	clearModal();
+})
