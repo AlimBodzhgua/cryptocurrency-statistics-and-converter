@@ -1,16 +1,19 @@
 import {KEY} from './key.js';
 import {
+	body,
 	list, 
 	toCoinsList,
 	clearList,
 	showNotFound,
-	showSearchResult
+	showSearchResult,
+	showCoinDetails,
 } from './look/view.js';
 
 let coinsList = {};
 
 const orderButtns = document.querySelectorAll('.order-btn');
 const searchInput = document.querySelector('.search-input');
+const modal = document.querySelector('.modal');
 
 const options = {
  	headers: {
@@ -19,7 +22,6 @@ const options = {
 	},
 };
 
-
 const getCoins = async (order = 'marketCap', limit = 30) => {
 	const url = `https://api.coinranking.com/v2/coins?orderBy=${order}&limit=${limit}&tags`;
 
@@ -27,7 +29,6 @@ const getCoins = async (order = 'marketCap', limit = 30) => {
 		const response = await fetch(url, options);
 		const json = await response.json();
 		const coins = await json.data.coins;
-		console.log(coins);
 		return coins;
 	} catch(error) {
 		throw new Error('Error getting coins', error);
@@ -48,7 +49,7 @@ const getCoinDetails = async (uuid) => {
 	try {
 		const response = await fetch(url, options);
 		const json = await response.json();
-		console.log(json);
+		return json.data.coin;
 	} catch (error) {
 		throw new Error('Error getting coin details', error);
 	}
@@ -112,4 +113,17 @@ searchInput.addEventListener('input', (event) => {
 	}
 })
 
+
+list.addEventListener('click', async (event) => {
+	const $target = event.target;
+
+	if ($target.classList.contains('list__item')) {
+		const id = $target.dataset.id;
+		//modal.style.display = 'flex';
+		modal.classList.add('active');
+		body.classList.add('no-scroll');
+		const coinData = await getCoinDetails(id);
+		showCoinDetails(coinData, modal);
+	}
+})
 
