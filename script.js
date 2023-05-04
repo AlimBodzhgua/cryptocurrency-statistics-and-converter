@@ -1,100 +1,32 @@
-import {KEY} from './key.js';
-import {
-	body,
-	table, 
-	toCoinsTable,
-	clearTable,
-	showNotFound,
-	showSearchResult,
-	showCoinDetails,
-	tokensList,
-	showTokensList,
-} from './look/view.js';
+import {showCoinDetails, showTokensList, showSearchResult} from '/src/blocks.js';
+import {getCoinDetails, convertCoin} from '/src/api.js';
+import {showCoins, clearModal, clearTable} from '/src/actions.js';
 
-let coinsList = {};
+const body = document.querySelector('body');
+
+export const table = document.querySelector('.coins-table');
+export const tokensList = document.querySelector('.tokens-list');
 
 const orderButtns = document.querySelectorAll('.order-btn');
 const selectButtons = document.querySelectorAll('#selectBtn');
-const searchInput = document.querySelector('.search-input');
+const closeButtons = document.querySelectorAll('.modal__close');
+
 const converterBtn = document.querySelector('.converter-btn');
-const modal = document.querySelector('.modal');
 const swapBtn = document.querySelector('#swapButton');
+const searchInput = document.querySelector('.search-input');
 
-const options = {
- 	headers: {
-    	'Content-Type': 'application/json',
-    	'x-access-token': KEY,
-	},
-};
-
-const getCoins = async (order = 'marketCap', limit = 30) => {
-	const url = `https://api.coinranking.com/v2/coins?orderBy=${order}&limit=${limit}&tags`;
-
-	try {
-		const response = await fetch(url, options);
-		const json = await response.json();
-		const coins = await json.data.coins;
-		return coins;
-	} catch(error) {
-		throw new Error('Error getting coins', error);
-	}
-}
-
-const getCoinPrice = async (uuid) => {
-	const url = `https://api.coinranking.com/v2/coin/wsogvtv82FCd/price`
-	try {
-		const response = await fetch(url, options);
-	} catch (error) {
-		throw new Error('Error getting coin price', error);
-	}
-}
-
-const getCoinDetails = async (uuid) => {
-	const url = `https://api.coinranking.com/v2/coin/${uuid}`;
-	try {
-		const response = await fetch(url, options);
-		const json = await response.json();
-		return json.data.coin;
-	} catch (error) {
-		throw new Error('Error getting coin details', error);
-	}
-}
+/*Modals*/
+const modalDetails = document.querySelector('#modalDetails');
+const modalConverter = document.querySelector('#modalConverter');
+/*Converter*/
+const convertBtn = document.querySelector('#convertButton');
+const tokenFromBtn = document.querySelector('[data-select=from]');
+const tokenToBtn = document.querySelector('[data-select=to]');
+const input = document.querySelector('#valueField');
+const resultField = document.querySelector('#resultField')
 
 
-const convertCoin = async (tokenFrom, tokenTo, amount) => {
-	const url = `https://api.coinconvert.net/convert/${tokenFrom}/${tokenTo}?amount=${amount}`;
-	console.log(url);
-	try {
-		const response = await fetch(url);
-		const json = await response.json();
-		if (json.status === 'success') {
-			return json[tokenTo];
-		}
-		console.log(json);
-	} catch (error) {
-		throw new Error('Error converting coins', error);
-	}
-}
-
-const showCoins = async (order) => {
-	const coins = await getCoins(order)
-	const keys = await Object.keys(coins);
-	coinsList = coins;
-
-	const tableFulled = new Promise((resolve, reject) => {
-		setTimeout(() => {
-			keys.forEach(key => {
-				toCoinsTable(coins[key], key);
-			})
-			resolve();
-		}, 1000) 
-	})
-	
-	tableFulled.then(() => {
-		table.style.transform = 'scale(1)'
-	});
-}
-
+let coinsList = await showCoins();
 
 orderButtns.forEach(button => {
 	button.addEventListener('click', (event) => {
@@ -105,7 +37,6 @@ orderButtns.forEach(button => {
 	})
 })
 
-showCoins();
 
 searchInput.addEventListener('input', (event) => {
 	const value = (event.target.value).toLowerCase();
@@ -133,19 +64,16 @@ searchInput.addEventListener('input', (event) => {
 	}
 })
 
-
 table.addEventListener('click', async (event) => {
 	const $target = event.target;
-	console.log($target.classList);
 	if ($target.classList.contains('table__row')) {
 		const id = $target.dataset.id;
-		modal.classList.add('active');
+		modalDetails.classList.add('active');
 		body.classList.add('no-scroll');
 		const coinData = await getCoinDetails(id);
-		showCoinDetails(coinData, modal);
+		showCoinDetails(coinData);
 	}
 })
-
 
 selectButtons.forEach(button => {
 	button.addEventListener('click', (event) => {
@@ -157,11 +85,11 @@ selectButtons.forEach(button => {
 
 converterBtn.addEventListener('click', (event) => {
 	event.preventDefault();
-	modal.classList.add('active');
+	modalConverter.classList.add('active');
 	body.classList.add('no-scroll');
 })
 
-
+//Converter
 tokensList.addEventListener('click', (event) => {
 	const $target = event.target;
 	if ($target.classList.contains('tokens__item')) {
@@ -177,9 +105,6 @@ tokensList.addEventListener('click', (event) => {
 	}
 })
 
-const input = document.querySelector('#valueField');
-const resultField = document.querySelector('#resultField')
-
 input.addEventListener('input', (event) => {
 	const allowedNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
 	const allowedKeys = [null, '.']
@@ -190,27 +115,38 @@ input.addEventListener('input', (event) => {
 	}
 })
 
-const tokenFromBtn = document.querySelector('[data-select=from]');
-const tokenToBtn = document.querySelector('[data-select=to]');
-
-
 swapBtn.addEventListener('click', (event) => {
 	event.preventDefault();
 	const tokenFromValue = tokenFromBtn.innerHTML;
-
 	const tokenToValue = tokenToBtn.innerHTML;
 
-	tokenFrom.innerHTML = tokenToValue;
-	tokenTo.innerHTML = tokenFromValue;
+	tokenFromBtn.innerHTML = tokenToValue;
+	tokenToBtn.innerHTML = tokenFromValue;
 })
-
-const convertBtn = document.querySelector('#convertButton');
 
 convertBtn.addEventListener('click', async (event) => {
 	event.preventDefault();
 	const value = parseFloat(input.value);
 	const tokenFrom = tokenFromBtn.querySelector('div').innerText;
 	const tokenTo = tokenToBtn.querySelector('div').innerText;
+
 	const result = await convertCoin(tokenFrom, tokenTo, value);
 	resultField.value = result;
+})
+
+closeButtons.forEach(button => {
+	button.addEventListener('click', (event) => {
+		event.preventDefault();
+		const $target = event.target;
+		const modal = $target.closest('.modal');
+
+		if ($target.dataset.type === 'details') {
+			modal.classList.remove('active');
+			body.classList.remove('no-scroll');
+			clearModal();
+		} else if ($target.dataset.type === 'converter') {
+			modal.classList.remove('active');
+			body.classList.remove('no-scroll');
+		}
+	})
 })

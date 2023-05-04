@@ -5,21 +5,22 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Document</title>
 	<link rel="stylesheet" href="styles.css">
+	<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 <h1>Cryptocurrency</h1>
 
-<input type="text" class="search-input">
+<input type="text" class="search-input" placeholder="Search">
 <div>
-	Order by:
-	<button class="order-btn" data-order='marketCap'>marketCap(default)</button>	
-	<button class="order-btn" data-order='price'>price</button>	
-	<button class="order-btn" data-order='24hVolume'>24hVolume</button>	
-	<button class="order-btn" data-order='listedAt'>listedAt</button>	
-	<button class="order-btn" data-order='change'>change</button>
+	<button class="btn btn--blue converter-btn">converter</button>
 </div>
-<div>
-	<button class="converter-btn">converter</button>
+<div class="order-block">
+	Order by:
+	<button class="btn btn--blue order-btn" data-order='marketCap'>marketCap(default)</button>	
+	<button class="btn btn--blue order-btn" data-order='price'>price</button>	
+	<button class="btn btn--blue order-btn" data-order='24hVolume'>24hVolume</button>	
+	<button class="btn btn--blue order-btn" data-order='listedAt'>listedAt</button>	
+	<button class="btn btn--blue order-btn" data-order='change'>change</button>
 </div>
 
 <div class="board">
@@ -40,15 +41,15 @@
 
 
 <!-- modal -->
-<!-- <div class="modal">
+<div class="modal" id="modalDetails">
 	<div class="modal__inner">
 		<button class="modal__close" data-type="details">close</button>
 		<h1 class="modal__title">Coin detail</h1>
 		<div class="modal__content"></div>
 	</div>
-</div> -->
+</div> 
 
-<div class="modal modal--convert">
+<div class="modal modal--convert" id="modalConverter">
 	<div class="modal__inner">
 		<button class="modal__close" data-type="converter">close</button>
 		<h1>Swap</h1>
@@ -65,7 +66,7 @@
 				</div>
 			</div>
 			<button class="btn" id="swapButton">
-				<img class="swap__icon" src="swap_icon.svg" alt="">
+				<img class="swap__icon" src="icons/swap_icon.svg" alt="">
 			</button>
 			<div class="swap__field">
 				<span>You get</span>

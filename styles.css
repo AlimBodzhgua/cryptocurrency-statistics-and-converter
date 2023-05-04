@@ -5,7 +5,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 body {
+	font-family: 'Lato', sans-serif;
 	margin: 0;
+}
+
+button {
+	font-family: inherit;
 }
 
 .no-scroll {
@@ -23,9 +28,57 @@ body {
 .btn {
 	border: none;
 	background: none;
+
+	font-weight: 700;
+	border-radius: 5px;
+	cursor: pointer;
+	display: block;
+	padding: 4px 8px;
+}
+
+.btn--blue {
+	background-color: #3861FB;
+	color: #fff;
+}
+
+.btn--blue:hover {
+	color: #F9F9F9;
+	background-color: #3801FB;	
+}
+
+.btn--grey {
+	color: #000;
+	background-color: #EFF2F5;
+	position: relative;
+}
+
+.search-input {
+	height: 30px;
+	width: 200px;
+	color: #616e85;
+	font-weight: 700;
+
+	background-color: #EFF2F5;
+	border-radius: 4px;
+	border: none;
+}
+
+.search-input:focus {
+	outline: none;
+	color: #000;
+}
+
+.order-block {
+	width: 100%;
+	display: flex;
+	gap: 5px;
 }
 
 /*Table*/
+
+table, tr, th, td{
+	font-size: 13px;
+}
 
 .coins-table {
 	width: 85vw;
@@ -183,11 +236,6 @@ body {
 
 /* Converter */
 
-.btn {
-	border: none;
-	background: none;
-}
-
 .swapper {
 	display: flex;
 	justify-content: center;
@@ -201,7 +249,7 @@ body {
 
 .swap__field {
 	background: rgb(249, 249, 249);
-	padding: 10px;
+	padding: 13px 10px;
 	margin: 8px 0;
 	width: 100%;
 }
@@ -209,11 +257,14 @@ body {
 .swap__field span {
 	margin-left: 8px;
 	pointer-events: none;
+	font-weight: 700;
 }
 
 .swap__actions {
 	display: flex;
-	padding: 0 8px;
+	justify-content: space-between;
+	margin: 0 8px;
+	/*padding: 0 8px;*/
 }
 
 .swap__icon {
@@ -229,6 +280,7 @@ body {
 	border: 1px solid #F9F9F5;
 	background-color: #F9F9F9;	
 	border-radius: 5px;
+	padding: 3px 0;
 }
 
 .swap__input:focus {
@@ -238,6 +290,8 @@ body {
 .btn--select {
 	position: relative;
 	display: flex;
+	font-weight: 700;
+	margin-right: 7px;
 }
 
 .btn--select:hover {
@@ -261,7 +315,7 @@ body {
 	border-color: #0b0e12 transparent transparent transparent;
 
 	position: absolute;
-	top: 25%;
+	top: 35%;
 	right: -9px;
 }
 

@@ -1,11 +1,6 @@
+import {tokensList, table} from '../script.js';
 
-export const table = document.querySelector('.coins-table');
 export const tableBody = document.querySelector('.coins-content');
-export const body = document.querySelector('body');
-export const tokensList = document.querySelector('.tokens-list');
-
-const modal = document.querySelector('.modal');
-const close = document.querySelector('.modal__close');
 
 export const toCoinsTable = (coin, index) => {
 	const row = document.createElement('tr');
@@ -53,42 +48,8 @@ export const toCoinsTable = (coin, index) => {
 	tableBody.append(row);
 }
 
-export const clearTable = () => {
-	setTimeout(() => {
-		tableBody.innerHTML = '';
-	}, 800)
-	table.style.transform = 'scale(0)';
-}
 
-export const showNotFound = () => {
-	const header = document.createElement('h1');
-	header.innerHTML = 'Not found';
-	header.classList.add('not-found');
-
-	return new Promise((resolve, reject) => {	
-		setTimeout(() => {
-			tableBody.append(header);		
-			resolve();
-		}, 1000)
-	}).then(() => {
-		table.style.transform = 'scale(1)';
-	})
-}
-
-export const showSearchResult = (searchList) => {
-	return new Promise(resolve => {
-		setTimeout(() => {
-			Object.keys(searchList).forEach(key => {
-				toCoinsTable(searchList[key], key);
-			})
-			resolve();
-		}, 1000) 
-	}).then(() => {
-		table.style.transform = 'scale(1)'
-	});
-}
-
-export const showCoinDetails = (coin, modal) => {
+export const showCoinDetails = (coin) => {
 	const modalContent = document.querySelector('.modal__content');
 
 	const name = document.createElement('div');
@@ -126,6 +87,35 @@ export const showCoinDetails = (coin, modal) => {
 	modalContent.append(tags);
 }
 
+export const showNotFound = () => {
+	const header = document.createElement('h1');
+	header.innerHTML = 'Not found';
+	header.classList.add('not-found');
+
+	return new Promise((resolve, reject) => {	
+		setTimeout(() => {
+			tableBody.append(header);		
+			resolve();
+		}, 1000)
+	}).then(() => {
+		table.style.transform = 'scale(1)';
+	})
+}
+
+export const showSearchResult = (searchList) => {
+	return new Promise(resolve => {
+		setTimeout(() => {
+			Object.keys(searchList).forEach(key => {
+				toCoinsTable(searchList[key], key);
+			})
+			resolve();
+		}, 1000) 
+	}).then(() => {
+		table.style.transform = 'scale(1)'
+	});
+}
+
+
 export const showTokensList = (coinsList, type) => {
 	Object.keys(coinsList).forEach(key => {
 		const coin = coinsList[key]
@@ -147,23 +137,3 @@ export const showTokensList = (coinsList, type) => {
 	tokensList.style.transform = 'translateY(0)';
 	tokensList.setAttribute('data-type', type);
 }
-
-const clearModal = () => {
-	const content = modal.querySelector('.modal__content');
-	content.innerHTML = '';
-}
-
-close.addEventListener('click', (event) => {
-	event.preventDefault();
-	const $target = event.target;
-
-	if ($target.dataset.type === 'details') {
-		const modal = $target.closest('.modal');
-		modal.classList.remove('active');
-		body.classList.remove('no-scroll');
-		clearModal();
-	} else if ($target.dataset.type === 'converter') {
-		const modal = $target.closest('.modal');
-		modal.classList.remove('active');
-	}
-})
