@@ -18,7 +18,9 @@
 	<button class="order-btn" data-order='listedAt'>listedAt</button>	
 	<button class="order-btn" data-order='change'>change</button>
 </div>
-
+<div>
+	<button class="converter-btn">converter</button>
+</div>
 
 <div class="board">
 	<table class="coins-table">
@@ -38,13 +40,50 @@
 
 
 <!-- modal -->
-<div class="modal">
+<!-- <div class="modal">
 	<div class="modal__inner">
-		<button class="modal__close">close</button>
+		<button class="modal__close" data-type="details">close</button>
 		<h1 class="modal__title">Coin detail</h1>
 		<div class="modal__content"></div>
 	</div>
+</div> -->
+
+<div class="modal modal--convert">
+	<div class="modal__inner">
+		<button class="modal__close" data-type="converter">close</button>
+		<h1>Swap</h1>
+		<div class="swapper">
+			<div class="tokens-list">
+			</div>
+			<div class="swap__field">
+				<span>You sell</span>
+				<div class="swap__actions">
+					<input class="swap__input" id="valueField" type="text">
+					<button class="btn btn--select" id="selectBtn" data-select="from">
+						Select Token
+					</button>
+				</div>
+			</div>
+			<button class="btn" id="swapButton">
+				<img class="swap__icon" src="swap_icon.svg" alt="">
+			</button>
+			<div class="swap__field">
+				<span>You get</span>
+				<div class="swap__actions">
+					<input class="swap__input" id="resultField" type="text"  readonly="readonly">
+					<button class="btn btn--select" id="selectBtn" data-select="to"> 
+						Select Token
+					</button>
+				</div>
+			</div>
+			<div class="swapper__footer">
+				<button class="btn btn--swap" id="convertButton">Convert</button>
+			</div>			
+		</div>
+
+	</div>
 </div>
+
 
 <script type="module" src="script.js"></script>
 </body>

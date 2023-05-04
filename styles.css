@@ -20,6 +20,11 @@ body {
 	background-color: #ECEFF1;
 }
 
+.btn {
+	border: none;
+	background: none;
+}
+
 /*Table*/
 
 .coins-table {
@@ -47,6 +52,7 @@ body {
 }
 
 .table__row {
+	font-size: 15px;
 	width: 100%;
 	border-bottom: 1px solid black;
 }
@@ -59,18 +65,23 @@ body {
 	margin-right: 10px;
 }
 
-.list__item div {
-	margin-right: 55px;
-}
-
 .coin__icon {
-	width: 20px;
-	height: 20px;
+	width: 15px;
+	height: 15px;
 }
 
 .coin__data {
 	display: flex;
 	pointer-events: none;
+}
+
+.coin__name {
+	font-weight: 600;
+	margin-right: 5px;
+}
+
+.coin__symbol {
+	color: rgb(128, 138, 157);
 }
 
 .coin__name,
@@ -168,4 +179,154 @@ body {
 	transform: 
 		rotate(90deg)
 		scale(1.15)
+}
+
+/* Converter */
+
+.btn {
+	border: none;
+	background: none;
+}
+
+.swapper {
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+
+	position: relative;
+	overflow: hidden;
+
+}
+
+.swap__field {
+	background: rgb(249, 249, 249);
+	padding: 10px;
+	margin: 8px 0;
+	width: 100%;
+}
+
+.swap__field span {
+	margin-left: 8px;
+	pointer-events: none;
+}
+
+.swap__actions {
+	display: flex;
+	padding: 0 8px;
+}
+
+.swap__icon {
+	width: 30px;
+	height: 30px;
+}
+
+.swap__icon:hover {
+	cursor: pointer;
+}
+
+.swap__input {
+	border: 1px solid #F9F9F5;
+	background-color: #F9F9F9;	
+	border-radius: 5px;
+}
+
+.swap__input:focus {
+	outline: none;
+}
+
+.btn--select {
+	position: relative;
+	display: flex;
+}
+
+.btn--select:hover {
+	cursor: pointer;
+	color: rgb(24, 198, 131);
+}
+
+.btn--select:hover:after {
+	cursor: pointer;
+	color: rgb(24, 198, 131);
+	border-color: rgb(24, 198, 131) transparent transparent transparent;
+}
+
+.btn--select:after {
+	content: '';
+	display: block;
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 7px 6px 0 6px;
+	border-color: #0b0e12 transparent transparent transparent;
+
+	position: absolute;
+	top: 25%;
+	right: -9px;
+}
+
+.swapper__footer {
+	margin-top: 15px;
+}
+
+.btn--swap {
+	display: block;
+	padding: 10px 25px;
+	background-color: rgb(24, 198, 131);
+	border-radius: 60px;
+
+	color: #fff;
+	font-weight: 600;
+	font-size: 20px;
+
+	transition: color .3s linear;
+}
+
+.btn--swap:hover {
+	cursor: pointer;
+	color: lightgrey;
+}
+
+.tokens-list {
+	overflow-y: scroll;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1000;
+
+	width: 100%;
+	height: 350px;
+	background-color: #fff;
+
+	display: flex;
+	flex-direction: column;
+
+	transition: transform .3s linear;
+	transform: translateY(100%);
+}
+
+.tokens__item {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+
+	border-bottom: 1px solid #F9F9F9;
+	margin-bottom: 4px;
+}
+
+.tokens__item:hover {
+	cursor: pointer;
+	background-color: #FAFAFA;
+}
+
+.tokens__item div {
+	pointer-events: none;
+}
+
+.tokens__icon {
+	width: 15px;
+	height: 15px;
+	
+	margin-right: 6px;
+	pointer-events: none;
 }

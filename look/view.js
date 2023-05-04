@@ -2,6 +2,8 @@
 export const table = document.querySelector('.coins-table');
 export const tableBody = document.querySelector('.coins-content');
 export const body = document.querySelector('body');
+export const tokensList = document.querySelector('.tokens-list');
+
 const modal = document.querySelector('.modal');
 const close = document.querySelector('.modal__close');
 
@@ -124,6 +126,28 @@ export const showCoinDetails = (coin, modal) => {
 	modalContent.append(tags);
 }
 
+export const showTokensList = (coinsList, type) => {
+	Object.keys(coinsList).forEach(key => {
+		const coin = coinsList[key]
+		
+		const coinData = document.createElement('div');
+		coinData.classList.add('tokens__item');
+
+		const img = document.createElement('img');
+		img.classList.add('tokens__icon');
+		img.setAttribute('src', coin.iconUrl);
+		
+		const name = document.createElement('div')
+		name.innerText = coin.symbol;
+		
+		coinData.append(img);
+		coinData.append(name);
+		tokensList.append(coinData);
+	})
+	tokensList.style.transform = 'translateY(0)';
+	tokensList.setAttribute('data-type', type);
+}
+
 const clearModal = () => {
 	const content = modal.querySelector('.modal__content');
 	content.innerHTML = '';
@@ -131,7 +155,15 @@ const clearModal = () => {
 
 close.addEventListener('click', (event) => {
 	event.preventDefault();
-	modal.classList.remove('active');
-	body.classList.remove('no-scroll');
-	clearModal();
+	const $target = event.target;
+
+	if ($target.dataset.type === 'details') {
+		const modal = $target.closest('.modal');
+		modal.classList.remove('active');
+		body.classList.remove('no-scroll');
+		clearModal();
+	} else if ($target.dataset.type === 'converter') {
+		const modal = $target.closest('.modal');
+		modal.classList.remove('active');
+	}
 })

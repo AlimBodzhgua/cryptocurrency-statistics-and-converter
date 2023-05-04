@@ -7,13 +7,18 @@ import {
 	showNotFound,
 	showSearchResult,
 	showCoinDetails,
+	tokensList,
+	showTokensList,
 } from './look/view.js';
 
 let coinsList = {};
 
 const orderButtns = document.querySelectorAll('.order-btn');
+const selectButtons = document.querySelectorAll('#selectBtn');
 const searchInput = document.querySelector('.search-input');
+const converterBtn = document.querySelector('.converter-btn');
 const modal = document.querySelector('.modal');
+const swapBtn = document.querySelector('#swapButton');
 
 const options = {
  	headers: {
@@ -55,6 +60,21 @@ const getCoinDetails = async (uuid) => {
 	}
 }
 
+
+const convertCoin = async (tokenFrom, tokenTo, amount) => {
+	const url = `https://api.coinconvert.net/convert/${tokenFrom}/${tokenTo}?amount=${amount}`;
+	console.log(url);
+	try {
+		const response = await fetch(url);
+		const json = await response.json();
+		if (json.status === 'success') {
+			return json[tokenTo];
+		}
+		console.log(json);
+	} catch (error) {
+		throw new Error('Error converting coins', error);
+	}
+}
 
 const showCoins = async (order) => {
 	const coins = await getCoins(order)
@@ -126,3 +146,71 @@ table.addEventListener('click', async (event) => {
 	}
 })
 
+
+selectButtons.forEach(button => {
+	button.addEventListener('click', (event) => {
+		event.preventDefault();
+		const type = event.target.dataset.select;
+		showTokensList(coinsList, type)
+	})
+})
+
+converterBtn.addEventListener('click', (event) => {
+	event.preventDefault();
+	modal.classList.add('active');
+	body.classList.add('no-scroll');
+})
+
+
+tokensList.addEventListener('click', (event) => {
+	const $target = event.target;
+	if ($target.classList.contains('tokens__item')) {
+		const targetHTML = $target.innerHTML;
+		const value = $target.innerText;
+
+		tokensList.style.transform = 'translateY(100%)';
+		const type = tokensList.dataset.type;
+		const button = document.querySelector(`[data-select=${type}]`);
+		button.innerHTML = ''
+		button.innerHTML = targetHTML;
+
+	}
+})
+
+const input = document.querySelector('#valueField');
+const resultField = document.querySelector('#resultField')
+
+input.addEventListener('input', (event) => {
+	const allowedNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+	const allowedKeys = [null, '.']
+
+	if (!allowedNumbers.includes(parseFloat(event.data)) && !allowedKeys.includes(event.data)) {
+		input.value = (input.value).slice(0, (input.value).length - 1);
+		alert('You can enter only numbers with dot');
+	}
+})
+
+const tokenFromBtn = document.querySelector('[data-select=from]');
+const tokenToBtn = document.querySelector('[data-select=to]');
+
+
+swapBtn.addEventListener('click', (event) => {
+	event.preventDefault();
+	const tokenFromValue = tokenFromBtn.innerHTML;
+
+	const tokenToValue = tokenToBtn.innerHTML;
+
+	tokenFrom.innerHTML = tokenToValue;
+	tokenTo.innerHTML = tokenFromValue;
+})
+
+const convertBtn = document.querySelector('#convertButton');
+
+convertBtn.addEventListener('click', async (event) => {
+	event.preventDefault();
+	const value = parseFloat(input.value);
+	const tokenFrom = tokenFromBtn.querySelector('div').innerText;
+	const tokenTo = tokenToBtn.querySelector('div').innerText;
+	const result = await convertCoin(tokenFrom, tokenTo, value);
+	resultField.value = result;
+})
