@@ -52,3 +52,14 @@ export const convertCoin = async (tokenFrom, tokenTo, amount) => {
 		throw new Error('Error converting coins', error);
 	}
 }
+
+export const getGlobalStats = async () => {
+	const url = 'https://api.coinranking.com/v2/stats';
+	try {
+		const response = await fetch(url, options);
+		const json = await response.json();
+		return json.data;
+	} catch (error) {
+		throw new Error('Error getting global stats');
+	}
+}

@@ -1,8 +1,13 @@
 import {showCoinDetails, showTokensList, showSearchResult} from '/src/blocks.js';
 import {getCoinDetails, convertCoin} from '/src/api.js';
-import {showCoins, clearModal, clearTable} from '/src/actions.js';
-
-const body = document.querySelector('body');
+import {
+	showGlobalStats,
+	showCoins, 
+	clearModal,
+	showModal, 
+	hideModal, 
+	clearTable
+} from '/src/actions.js';
 
 export const table = document.querySelector('.coins-table');
 export const tokensList = document.querySelector('.tokens-list');
@@ -11,10 +16,13 @@ const orderButtns = document.querySelectorAll('.order-btn');
 const selectButtons = document.querySelectorAll('#selectBtn');
 const closeButtons = document.querySelectorAll('.modal__close');
 
+const searchInput = document.querySelector('.search-input');
+/*Converter modal*/
 const converterBtn = document.querySelector('.converter-btn');
 const swapBtn = document.querySelector('#swapButton');
-const searchInput = document.querySelector('.search-input');
-
+/*Order block*/
+const orderBtn = document.querySelector('.order-button');	
+const orderList = document.querySelector('.order-list');
 /*Modals*/
 const modalDetails = document.querySelector('#modalDetails');
 const modalConverter = document.querySelector('#modalConverter');
@@ -25,8 +33,16 @@ const tokenToBtn = document.querySelector('[data-select=to]');
 const input = document.querySelector('#valueField');
 const resultField = document.querySelector('#resultField')
 
-
+showGlobalStats();
 let coinsList = await showCoins();
+
+orderBtn.addEventListener('click', (event) => {
+	event.preventDefault();
+	setTimeout(() => {
+		orderList.classList.toggle('active');
+	})
+	orderList.style.display = 'block';
+})
 
 orderButtns.forEach(button => {
 	button.addEventListener('click', (event) => {
@@ -68,8 +84,7 @@ table.addEventListener('click', async (event) => {
 	const $target = event.target;
 	if ($target.classList.contains('table__row')) {
 		const id = $target.dataset.id;
-		modalDetails.classList.add('active');
-		body.classList.add('no-scroll');
+		showModal(modalDetails)
 		const coinData = await getCoinDetails(id);
 		showCoinDetails(coinData);
 	}
@@ -85,8 +100,7 @@ selectButtons.forEach(button => {
 
 converterBtn.addEventListener('click', (event) => {
 	event.preventDefault();
-	modalConverter.classList.add('active');
-	body.classList.add('no-scroll');
+	showModal(modalConverter);
 })
 
 //Converter
@@ -134,6 +148,7 @@ convertBtn.addEventListener('click', async (event) => {
 	resultField.value = result;
 })
 
+
 closeButtons.forEach(button => {
 	button.addEventListener('click', (event) => {
 		event.preventDefault();
@@ -141,17 +156,10 @@ closeButtons.forEach(button => {
 		const modal = $target.closest('.modal');
 
 		if ($target.dataset.type === 'details') {
-			modal.classList.remove('active');
-			body.classList.remove('no-scroll');
+			hideModal(modal);
 			clearModal();
 		} else if ($target.dataset.type === 'converter') {
-			modal.classList.remove('active');
-			body.classList.remove('no-scroll');
+			hideModal(modal);
 		}
 	})
 })
-
-
-
-/*export const API_KEY = 'coinranking2eb56d200a0d6048867e2e0f8fd62263c88205177c531252';
-*/

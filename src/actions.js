@@ -1,6 +1,8 @@
-import {getCoins} from '/src/api.js';
+import {getCoins, getGlobalStats} from '/src/api.js';
 import {toCoinsTable,tableBody} from '/src/blocks.js';
 import {table} from '../script.js';
+
+const body = document.querySelector('body');
 
 export const showCoins = async (order) => {
 	const coinsList = await getCoins(order)
@@ -22,6 +24,19 @@ export const showCoins = async (order) => {
 	return coinsList;
 }
 
+export const showGlobalStats = async () => {
+	const stats = await getGlobalStats();
+	const fields = document.querySelectorAll('[data-field]');
+
+	fields.forEach(field => {
+		const key = field.dataset.field;
+		const value = document.createElement('div');
+		value.innerText = stats[key];
+		field.append(value);
+
+	})
+}
+
 export const clearTable = () => {
 	setTimeout(() => {
 		tableBody.innerHTML = '';
@@ -33,6 +48,23 @@ export const clearModal = () => {
 	const content = document.querySelector('.modal__content');
 	content.innerHTML = '';
 }
+
+export const showModal = (modal) => {
+	body.classList.add('no-scroll');
+	setTimeout(() => {
+		modal.style.transform = 'translateY(0)';
+	}, 150) 
+	modal.classList.add('active');
+}
+
+export const hideModal = (modal) => {
+	setTimeout(() => {
+		modal.classList.remove('active');
+		body.classList.remove('no-scroll');
+	}, 150)
+	modal.style.transform = 'translateY(-100%)';
+}
+
 
 export const removeBodyScroll = () => {
 	const body = document.querySelector('body');

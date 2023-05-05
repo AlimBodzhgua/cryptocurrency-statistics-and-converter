@@ -8,22 +8,83 @@
 	<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-<h1>Cryptocurrency</h1>
 
-<input type="text" class="search-input" placeholder="Search">
-<div>
-	<button class="btn btn--blue converter-btn">converter</button>
-</div>
-<div class="order-block">
-	Order by:
-	<button class="btn btn--blue order-btn" data-order='marketCap'>marketCap(default)</button>	
-	<button class="btn btn--blue order-btn" data-order='price'>price</button>	
-	<button class="btn btn--blue order-btn" data-order='24hVolume'>24hVolume</button>	
-	<button class="btn btn--blue order-btn" data-order='listedAt'>listedAt</button>	
-	<button class="btn btn--blue order-btn" data-order='change'>change</button>
+<div class="actions">
+	<div>
+		<button class="btn btn--blue converter-btn">converter</button>
+	</div>
+
+	<input type="text" class="search-input" placeholder="Search coin">
+
+	<button class="btn order-button">
+		order by
+		<ul class="order-list">
+			<li>
+				<input 
+					class="btn btn--grey order-btn"
+					data-order='marketCap' 
+					type="button" 
+					value="marketCap">
+			</li>
+			<li>
+				<input 
+					class="btn btn--grey order-btn" 
+					data-order='price' 
+					type="button" 
+					value="price">
+			</li>
+			<li>
+				<input 
+					class="btn btn--grey order-btn" 
+					data-order='24hVolume' 
+					type="button" 
+					value="24hVolume">
+			</li>
+			<li>
+				<input 
+					class="btn btn--grey order-btn" 
+					data-order='listedAt' 
+					type="button" 
+					value="listedAt">
+			</li>
+			<li>
+				<input 
+					class="btn btn--grey order-btn" 
+					data-order='change' 
+					type="button" 
+					value="change">
+			</li>
+		</ul>
+	</button>
 </div>
 
 <div class="board">
+	<div class="container" style="width: 80vw; margin: 0 auto">
+		<div class="board__inner">
+			<h3 class="stats__title">Total Stats</h1>
+			<ul class="stats-list">
+				<li class="stats__item" data-field="totalMarketCap">
+					<div>market cap</div>	
+				</li>
+				<li class="stats__item" data-field="total24hVolume">
+					<div>24hVolume</div>		
+				</li>
+				<li class="stats__item" data-field="btcDominance">
+					<div>btc dom index</div>		
+				</li>
+				<li class="stats__item" data-field="totalCoins">
+					<div>coins</div>		
+				</li>
+				<li class="stats__item" data-field="totalExchanges">
+					<div>exchanges</div>		
+				</li>
+			</ul>
+			
+		</div>
+	</div>
+</div>
+
+<div class="main">
 	<table class="coins-table">
 		<thead>
 			<tr>
